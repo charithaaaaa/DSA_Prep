@@ -1,0 +1,29 @@
+class Solution:
+    def maxSubarraySum(self, arr, k):
+        n=len(arr)
+        if n<k:
+            return -1
+        current=sum(arr[:k])
+        maxi=current
+        for i in range(1,n-k+1):
+            current=current-arr[i-1]+arr[i+k-1]
+            if current>maxi:
+                maxi=current
+        return maxi
+
+# --- Example Test Cases (from GFG/LeetCode) ---
+
+# Test Case 1
+# Input: arr[] = [1, 4, 2, 10, 23, 3, 1, 0, 20], k = 4, N = 9
+# Expected Output: 39
+# Explanation: Max sum is from [4, 2, 10, 23] = 39
+
+# Test Case 2
+# Input: arr[] = [100, 200, 300, 400], k = 2, N = 4
+# Expected Output: 700
+# Explanation: Max sum is from [300, 400] = 700
+
+# Test Case 3 (From problem description image)
+# Input: arr[] = [100, 200, 300, 400], k = 1, N = 4
+# Expected Output: 400
+# Explanation: Max sum is 400
