@@ -1,0 +1,26 @@
+def maxSubarraySumCircular(nums):
+    total_sum = sum(nums)
+
+    # 1️⃣ Normal Kadane’s (max subarray sum)
+    current_max = max_sum = nums[0]
+    for x in nums[1:]:
+        current_max = max(x, current_max + x)
+        max_sum = max(max_sum, current_max)
+
+    # 2️⃣ Kadane’s for min subarray sum (for circular case)
+    current_min = min_sum = nums[0]
+    for x in nums[1:]:
+        current_min = min(x, current_min + x)
+        min_sum = min(min_sum, current_min)
+
+    # 3️⃣ If all numbers are negative
+    if max_sum < 0:
+        return max_sum
+
+    # 4️⃣ Maximum of normal and circular subarray sums
+    return max(max_sum, total_sum - min_sum)
+
+
+# 🔹 Example:
+nums = [5, -3, 5]
+print(maxSubarraySumCircular(nums))  # Output: 10
