@@ -1,0 +1,47 @@
+class Solution:
+    def search(self, pat: str, txt: str) -> int:
+        n = len(txt)
+        k = len(pat)
+        count = 0
+
+        if k > n:
+            return 0
+
+        pat_freq = {}
+        for char in pat:
+            pat_freq[char] = pat_freq.get(char, 0) + 1
+
+        chars_to_match = len(pat_freq)
+        
+        # Initial Window Setup
+        for i in range(k):
+            char = txt[i]
+            if char in pat_freq:
+                pat_freq[char] -= 1
+                if pat_freq[char] == 0:
+                    chars_to_match -= 1
+
+        if chars_to_match == 0:
+            count += 1
+            
+        # Slide the Window
+        for i in range(k, n):
+            # Add new character
+            char_add = txt[i]
+            if char_add in pat_freq:
+                pat_freq[char_add] -= 1
+                if pat_freq[char_add] == 0:
+                    chars_to_match -= 1
+            
+            # Remove old character
+            char_remove = txt[i - k]
+            if char_remove in pat_freq:
+                if pat_freq[char_remove] == 0:
+                    chars_to_match += 1
+                pat_freq[char_remove] += 1
+            
+            # Check the current window
+            if chars_to_match == 0:
+                count += 1
+
+        return count
